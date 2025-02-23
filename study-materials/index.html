@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials - Radiology Study Games</title>
+    <link rel="stylesheet" href="../skull-landmarks-game/styles.css">
+    <style>
+        .study-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: rgba(30, 30, 30, 0.9);
+            color: #00ffff;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover, .tab-button.active {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mnemonic-section {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .mnemonic-image {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .mnemonic-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .mnemonic-text {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            line-height: 1.6;
+        }
+
+        .landmarks-section {
+            position: relative;
+        }
+
+        .image-comparison {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .slider-handle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #00ffff;
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .slider-handle::before {
+            content: '↔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            border-right: 2px solid #00ffff;
+        }
+
+        .landmark-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00ffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .landmark-point:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .landmark-label {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.9);
+            color: #1a1a1a;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .landmark-point:hover .landmark-label {
+            opacity: 1;
+            transform: translateY(-120%);
+        }
+
+        .reference-lines {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reference-image {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .reference-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00ffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goal-section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .goal-image {
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 15px;
+        }
+
+        .goal-text {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            line-height: 1.6;
+        }
+
+        .landmarks-container {
+            display: flex;
+            gap: 2rem;
+            align-items: stretch;
+            margin: 2rem auto;
+            justify-content: center;
+            max-width: 1000px;
+        }
+
+        .landmarks-image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            aspect-ratio: 3/4;
+            max-width: 400px;
+        }
+
+        .base-image, .reference-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .landmarks-list {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .landmarks-list h3 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        .landmarks-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .landmarks-list li {
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .landmark-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ffff;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .landmark-points {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .reference-note {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .reference-note p {
+            color: #fff;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .reference-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            margin: 2rem 0;
+        }
+
+        .reference-image-container {
+            flex: 1.5;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .reference-info {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            max-width: 500px;
+        }
+
+        .reference-info h3 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-family: 'Cinzel', serif;
+        }
+
+        .reference-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+        }
+
+        .reference-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .reference-list li:hover {
+            background: rgba(0, 255, 255, 0.05);
+            border-color: rgba(0, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .line-indicator {
+            width: 4px;
+            height: 40px;
+            background: #00ffff;
+            display: inline-block;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 5px;
+            transform-origin: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Rotate line indicators to match their orientation */
+        .line-indicator.horizontal {
+            transform: rotate(90deg);
+        }
+
+        .line-indicator.vertical {
+            transform: rotate(0deg);
+        }
+
+        .reference-list li:hover .line-indicator {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .reference-list li strong {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-list li p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .usage-note {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .usage-note h4 {
+            color: #00ffff;
+            margin: 0 0 1rem 0;
+            font-family: 'Cinzel', serif;
+        }
+
+        .usage-note ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #fff;
+        }
+
+        .usage-note ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-points {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .reference-line {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.5);
+            height: 2px;
+            transform-origin: left center;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            pointer-events: all;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reference-line:hover {
+            background: rgba(0, 255, 255, 0.8);
+            height: 3px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .reference-line-label {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.9);
+            color: #1a1a1a;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .reference-line:hover .reference-line-label {
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .modal-controls {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .modal-button {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 30px;
+            height: 30px;
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #00ffff;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .image-wrapper {
+            position: relative;
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .image-wrapper::after {
+            content: '🔍';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(30, 30, 30, 0.9);
+            color: #00ffff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-wrapper:hover::after {
+            opacity: 1;
+        }
+
+        .download-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(30, 30, 30, 0.9);
+            color: #00ffff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-wrapper:hover .download-indicator {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-button">← Back to Games</a>
+    
+    <div class="study-container">
+        <h1>Interactive Study Materials</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="mnemonic">Coronoid Process</button>
+            <button class="tab-button" data-tab="landmarks">Facial Landmarks</button>
+        </div>
+
+        <div id="mnemonic" class="tab-content active">
+            <div class="mnemonic-section">
+                <div class="mnemonic-image">
+                    <div class="image-wrapper">
+                        <img src="images/coronoid-crow.jpg" alt="Coronoid Process Mnemonic" data-title="Coronoid Process Mnemonic">
+                        <div class="download-indicator">Click to enlarge</div>
+                    </div>
+                </div>
+                <p class="mnemonic-text">
+                    Remember the three coronoid processes by visualizing a crow sitting in the center.<br>
+                    The crow helps you keep track of: coroNoid, coroCoid, and coroNoid processes.
+                </p>
+            </div>
+        </div>
+
+        <div id="landmarks" class="tab-content">
+            <div class="landmarks-section">
+                <div class="landmarks-container">
+                    <div class="landmarks-image">
+                        <div class="image-wrapper">
+                            <img src="images/face-landmarks.jpg" alt="Facial Landmarks" class="base-image" data-title="Facial Landmarks">
+                            <div class="download-indicator">Click to enlarge</div>
+                        </div>
+                    </div>
+                    <div class="landmarks-image">
+                        <div class="image-wrapper">
+                            <img src="images/face-lines.jpg" alt="Reference Lines" class="reference-image" data-title="Reference Lines">
+                            <div class="download-indicator">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reference-note">
+                    <p>Note: Understanding these landmarks helps in properly positioning patients for radiographic imaging and identifying anatomical structures in x-rays.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-image-container">
+                <img class="modal-image" src="" alt="Enlarged view">
+            </div>
+            <div class="modal-controls">
+                <button class="modal-button download-btn">
+                    <span>⬇️</span> Download Image
+                </button>
+                <button class="modal-button zoom-in-btn">
+                    <span>🔍+</span> Zoom In
+                </button>
+                <button class="modal-button zoom-out-btn">
+                    <span>🔍-</span> Zoom Out
+                </button>
+            </div>
+            <button class="modal-close">×</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Image modal functionality
+        const modal = document.querySelector('.modal-overlay');
+        const modalImage = modal.querySelector('.modal-image');
+        const modalClose = modal.querySelector('.modal-close');
+        const downloadBtn = modal.querySelector('.download-btn');
+        const zoomInBtn = modal.querySelector('.zoom-in-btn');
+        const zoomOutBtn = modal.querySelector('.zoom-out-btn');
+        let currentZoom = 1;
+
+        // Open modal when clicking on image wrappers
+        document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                const img = wrapper.querySelector('img');
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                modal.style.display = 'flex';
+                currentZoom = 1;
+                modalImage.style.transform = `scale(${currentZoom})`;
+                
+                // Update download button
+                downloadBtn.onclick = () => {
+                    const link = document.createElement('a');
+                    link.href = img.src;
+                    link.download = img.dataset.title || 'image';
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                };
+            });
+        });
+
+        // Close modal
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Zoom functionality
+        zoomInBtn.addEventListener('click', () => {
+            currentZoom = Math.min(currentZoom + 0.25, 3);
+            modalImage.style.transform = `scale(${currentZoom})`;
+        });
+
+        zoomOutBtn.addEventListener('click', () => {
+            currentZoom = Math.max(currentZoom - 0.25, 0.5);
+            modalImage.style.transform = `scale(${currentZoom})`;
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                } else if (e.key === '+' || e.key === '=') {
+                    zoomInBtn.click();
+                } else if (e.key === '-') {
+                    zoomOutBtn.click();
+                }
+            }
+        });
+
+        // Prevent scrolling when modal is open
+        modal.addEventListener('wheel', (e) => {
+            if (e.deltaY < 0) {
+                zoomInBtn.click();
+            } else {
+                zoomOutBtn.click();
+            }
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html> 

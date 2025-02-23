@@ -1,10 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 2rem;
+    min-height: 100vh;
+    background: #1a1a1a;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
     text-align: center;
 }
 
 h1 {
-    color: #333;
+    font-family: 'Cinzel', serif;
+    color: #00ffff;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .game-container {
@@ -12,19 +25,31 @@ h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+    background: rgba(15, 15, 15, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.1);
 }
 
 .image-container {
     position: relative;
-    width: 600px;
-    height: 800px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    aspect-ratio: 3/4;
     margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
 
 .background-image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
+    filter: brightness(1.1) contrast(1.1);
 }
 
 .drop-zone {
@@ -32,8 +57,15 @@ h1 {
     height: 50px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgba(255, 0, 0, 0.5);
-    border: 2px dashed black;
+    background-color: rgba(0, 255, 255, 0.1);
+    border: 2px dashed rgba(0, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.drop-zone:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
 /* Corrected Positioning of Drop Zones */
@@ -45,20 +77,117 @@ h1 {
 #apex { top: 110px; left: 277px; }
 #eam { top: 325px; left: 410px; }
 
-/* Reduced space below the image for draggable subjects */
 .landmarks-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px; /* Reduced space */
-    gap: 15px; /* Controls spacing between the draggable elements */
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
 }
 
 .draggable {
     margin: 0;
-    padding: 10px;
-    background-color: #ddd;
-    border-radius: 5px;
+    padding: 12px 20px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 8px;
     cursor: grab;
-    font-size: 16px;
-    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #00ffff;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.draggable:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: rgba(0, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+}
+
+.draggable:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+/* Add a back button */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 5px;
+    color: #00ffff;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.back-button:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .game-container {
+        padding: 1rem;
+    }
+
+    .landmarks-container {
+        padding: 0.75rem;
+        gap: 10px;
+    }
+
+    .draggable {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* Adjust drop zone positions for mobile */
+    #glabella { transform: scale(0.8); }
+    #nasion { transform: scale(0.8); }
+    #acanthion { transform: scale(0.8); }
+    #mental { transform: scale(0.8); }
+    #goion { transform: scale(0.8); }
+    #apex { transform: scale(0.8); }
+    #eam { transform: scale(0.8); }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .game-container {
+        padding: 0.75rem;
+    }
+
+    .draggable {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .back-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
 }

@@ -4,59 +4,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Game Links</title>
+    <title>💀 Radiology Study Games</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            background: #1a1a1a;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem 0;
         }
+
         .container {
             text-align: center;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(15, 15, 15, 0.95);
+            padding: 3rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            margin: 180px auto 2rem;
         }
+
+        .skull-container {
+            position: absolute;
+            top: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            perspective: 1000px;
+            pointer-events: none;
+        }
+
+        .skull {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .skull svg {
+            width: 100%;
+            height: 100%;
+            fill: white;
+            filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.3));
+        }
+
+        .eye-socket {
+            fill: black;
+        }
+
+        .nose {
+            fill: black;
+        }
+
+        .teeth-row {
+            fill: none;
+            stroke: black;
+            stroke-width: 2;
+        }
+
         h1 {
-            color: #333;
-        }
-        a {
-            text-decoration: none;
-            font-size: 20px;
-            color: #fff;
-            background-color: #007BFF;
-            padding: 12px 30px;
-            border-radius: 5px;
-            margin: 10px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
-        .game-links {
+            font-family: 'Cinzel', serif;
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            margin-top: 2rem;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 1rem;
+        }
+
+        h1::before, h1::after {
+            content: "💀";
+            font-size: 2rem;
+            text-shadow: none;
+            animation: skull-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes skull-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        p {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+
+        .game-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            filter: invert(1) brightness(0.8) sepia(1) hue-rotate(175deg) saturate(3);
+        }
+
+        .game-title {
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .game-description {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-top: 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .skull-container {
+                top: -150px;
+                width: 150px;
+                height: 150px;
+            }
+
+            .game-links {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .game-card {
+                padding: 1rem;
+            }
+
+            .game-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .game-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1rem;
+                margin: 120px auto 1rem;
+            }
+
+            .skull-container {
+                top: -100px;
+                width: 100px;
+                height: 100px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .game-description {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <p>Click below to play the games:</p>
+        <div class="skull-container">
+            <div class="skull">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Main skull shape - exactly like emoji -->
+                    <path d="M50 5
+                        C25 5 15 25 15 45
+                        C15 65 30 85 50 85
+                        C70 85 85 65 85 45
+                        C85 25 75 5 50 5Z" />
+                    
+                    <!-- Left eye socket - exactly like emoji -->
+                    <circle class="eye-socket" cx="35" cy="45" r="13" />
+                    
+                    <!-- Right eye socket - exactly like emoji -->
+                    <circle class="eye-socket" cx="65" cy="45" r="13" />
+                    
+                    <!-- Nose - triangle shape like emoji -->
+                    <path class="nose" d="M43 55 L57 55 L50 68 Z" />
+                    
+                    <!-- Teeth rows - exactly like emoji -->
+                    <path class="teeth-row" d="M30 70 L70 70" />
+                    <path class="teeth-row" d="M30 75 L70 75" />
+                    <path class="teeth-row" d="M35 70 L35 75" />
+                    <path class="teeth-row" d="M45 70 L45 75" />
+                    <path class="teeth-row" d="M55 70 L55 75" />
+                    <path class="teeth-row" d="M65 70 L65 75" />
+                </svg>
+            </div>
+        </div>
+        <h1>Radiology Study Games</h1>
+        <p>Master skull anatomy through interactive learning</p>
+        
         <div class="game-links">
-            <a href="Matching Pairs/matching_pairs.html">Matching Pairs</a>
-            <a href="FLIP GAME/flip_game.html">Flip Game</a>
-            <a href="skull-landmarks-game/index.html">Skull Landmarks</a>
+            <a href="Matching Pairs/matching_pairs.html" class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIxLDJIOUEzLDMgMCAwLDAgNiw1VjE5QTMsMyAwIDAsMCA5LDIySDIxQTMsMyAwIDAsMCAyNCwxOVY1QTMsMyAwIDAsMCAyMSwyTTIzLDE5QTIsMiAwIDAsMSAyMSwyMUg5QTIsMiAwIDAsMSA3LDE5VjVBMiwyIDAgMCwxIDksM0gyMUEyLDIgMCAwLDEgMjMsNVYxOU0zLDRWMThBMywzIDAgMCwwIDYsMjFWMjBBMiwyIDAgMCwxIDQsMThWNEg2VjNIM0ExLDEgMCAwLDAgMiw0TTEzLDEwQTMsMyAwIDAsMCAxMCwxM0EzLDMgMCAwLDAgMTMsMTZBMywzIDAgMCwwIDE2LDEzQTMsMyAwIDAsMCAxMywxME0xMywxNUEyLDIgMCAwLDEgMTEsMTNBMiwyIDAgMCwxIDEzLDExQTIsMiAwIDAsMSAxNSwxM0EyLDIgMCAwLDEgMTMsMTVaIi8+PC9zdmc+" class="game-icon" alt="Matching icon">
+                <h3 class="game-title">Matching Pairs</h3>
+                <p class="game-description">Match radiographs with their correct views</p>
+            </a>
+            
+            <a href="FLIP GAME/flip_game.html" class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIxLDE5VjVDMjEsMy44OSAyMC4xLDMgMTksM0g1QzMuODksMyAzLDMuODkgMyw1VjE5QzMsMjAuMSAzLjg5LDIxIDUsMjFIMTlDMjAuMSwyMSAyMSwxOS4xIDIxLDE5TTguNSw5LjY2TDEwLjgzLDEyTDguNSwxNC4zM1YxMS41SDRWMTIuNUg3LjE3TDUuNSwxNC4xN0w2LjE3LDE0LjgzTDksMTJMNi4xNyw5LjE3TDUuNSw5LjgzTDcuMTcsMTEuNUg0VjEyLjVINy41VjkuNjZWOS42Nk0xOS41LDkuNjZMMTcuMTcsMTJMMTkuNSwxNC4zM1YxMS41SDI0VjEyLjVIMjAuODNMMjIuNSwxNC4xN0wyMS44MywxNC44M0wxOSwxMkwyMS44Myw5LjE3TDIyLjUsOS44M0wyMC44MywxMS41SDI0VjEyLjVIMjAuNVY5LjY2VjkuNjZaIi8+PC9zdmc+" class="game-icon" alt="Flip icon">
+                <h3 class="game-title">Flip Game</h3>
+                <p class="game-description">Study radiographic views and their descriptions</p>
+            </a>
+            
+            <a href="skull-landmarks-game/index.html" class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDRBOCw4IDAgMCwxIDIwLDEyQTgsOCAwIDAsMSAxMiwyMEE4LDggMCAwLDEgNCwxMkE4LDggMCAwLDEgMTIsNE0xMiw2QTYsNiAwIDAsMCA2LDEyQTYsNiAwIDAsMCAxMiwxOEE2LDYgMCAwLDAgMTgsMTJBNiw2IDAgMCwwIDEyLDZNMTIsOEE0LDQgMCAwLDEgMTYsMTJBNCw0IDAgMCwxIDEyLDE2QTQsNCAwIDAsMSA4LDEyQTQsNCAwIDAsMSAxMiw4WiIvPjwvc3ZnPg==" class="game-icon" alt="Target icon">
+                <h3 class="game-title">Skull Landmarks</h3>
+                <p class="game-description">Learn and identify important skull landmarks</p>
+            </a>
+            
+            <a href="study-materials/index.html" class="game-card study-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDRBOCw4IDAgMCwxIDIwLDEyQTgsOCAwIDAsMSAxMiwyMEE4LDggMCAwLDEgNCwxMkE4LDggMCAwLDEgMTIsNE0xMiw2QTYsNiAwIDAsMCA2LDEyQTYsNiAwIDAsMCAxMiwxOEE2LDYgMCAwLDAgMTgsMTJBNiw2IDAgMCwwIDEyLDZNMTIsOEE0LDQgMCAwLDEgMTYsMTJBNCw0IDAgMCwxIDEyLDE2QTQsNCAwIDAsMSA4LDEyQTQsNCAwIDAsMSAxMiw4WiIvPjwvc3ZnPg==" class="game-icon" alt="Study icon">
+                <h3 class="game-title">Study Materials</h3>
+                <p class="game-description">Interactive learning aids and mnemonics</p>
+            </a>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const skull = document.querySelector('.skull');
+            const skullRect = skull.getBoundingClientRect();
+
+            // Calculate the center of the skull
+            const skullCenterX = skullRect.left + skullRect.width / 2;
+            const skullCenterY = skullRect.top + skullRect.height / 2;
+
+            // Calculate the angle between the mouse and the skull center
+            const deltaX = e.clientX - skullCenterX;
+            const deltaY = e.clientY - skullCenterY;
+
+            // Calculate rotation angles (limit the rotation range)
+            const rotateY = Math.min(Math.max(deltaX * 0.02, -8), 8);
+            const rotateX = Math.min(Math.max(-deltaY * 0.02, -8), 8);
+
+            // Apply the rotation while maintaining the float animation
+            skull.style.transform = `translateY(var(--float-offset, 0px)) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+    </script>
 </body>
 </html>
 
