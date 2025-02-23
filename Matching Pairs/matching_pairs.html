@@ -227,9 +227,11 @@
                     const img = document.createElement('img');
                     img.src = card.content; // Set image source
                     cardElement.appendChild(img);
+                    // Show id for debugging
                 } else {
                     cardElement.innerText = card.content; // Set description text
                 }
+                cardElement.appendChild(document.createTextNode(`ID: ${card.id}`));
 
                 // Add the card to the container
                 gameContainer.appendChild(cardElement);
