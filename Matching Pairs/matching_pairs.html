@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Pairs Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('Bearcat.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 200px);
+            grid-gap: 20px;
+            position: relative;
+            z-index: 10; /* Ensure game board is on top of the confetti */
+        }
+        .card {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #ffffff;
+            cursor: pointer;
+            z-index: 1; /* Ensure cards are on top of the game container */
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 5; /* Ensure confetti is above the background but below the game container */
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- 16 cards (8 images + 8 descriptions) will be dynamically inserted here -->
+    </div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <audio id="click-sound" src="click.mp3"></audio>
+    <audio id="correct-sound" src="correct.mp3"></audio>
+    <audio id="wrong-sound" src="wrong.mp3"></audio>
+    <audio id="crowd-cheer-sound" src="crowd-cheer.mp3"></audio>
+
+    <script>
+        // Pairs of image sources and descriptions
+        const cards = [
+            { image: 'image1.jpg', description: 'AP Axial Towne Method' },
+            { image: 'image2.jpg', description: 'Lateral' },
+            { image: 'image3.jpg', description: 'PA Axial Skull Caldwell 15°' },
+            { image: 'image4.jpg', description: 'PA 0°' },
+            { image: 'image5.jpg', description: 'SMV Skull' },
+            { image: 'image6.jpg', description: 'Haas Method' },
+            { image: 'image7.jpg', description: 'Waters Method (facial bones)' },
+            { image: 'image8.jpg', description: 'Open Mouth Waters Method (sinuses)' }
+        ];
+
+        // Create cards for each image and description
+        function createGameBoard() {
+            const gameContainer = document.querySelector('.game-container');
+            gameContainer.innerHTML = ''; // Clear any existing cards
+
+            // Create image and description cards
+            const allCards = [];
+            for (let i = 0; i < cards.length; i++) {
+                // Image card
+                allCards.push({
+                    type: 'image',
+                    id: i,
+                    content: cards[i].image
+                });
+
+                // Description card
+                allCards.push({
+                    type: 'description',
+                    id: i,
+                    content: cards[i].description
+                });
+            }
+
+            // Shuffle the cards
+            shuffleArray(allCards);
+
+            // Create the card elements
+            allCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.setAttribute('data-id', card.id);
+                cardElement.setAttribute('data-type', card.type);
+
+                // Display image or text based on card type
+                if (card.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = card.content; // Set image source
+                    cardElement.appendChild(img);
+                } else {
+                    cardElement.innerText = card.content; // Set description text
+                }
+
+                // Add the card to the container
+                gameContainer.appendChild(cardElement);
+            });
+
+            // Event listener for card matching
+            let selectedCards = [];
+            let matchedPairs = 0;
+            const totalPairs = cards.length;
+
+            gameContainer.addEventListener('click', function(e) {
+                const card = e.target.closest('.card');
+                if (!card || selectedCards.length === 2 || card.classList.contains('matched')) {
+                    return;
+                }
+
+                // Play click sound for the first card selection
+                if (selectedCards.length === 0) {
+                    document.getElementById('click-sound').play();
+                }
+
+                // Select the card
+                selectedCards.push(card);
+                card.style.backgroundColor = "#e0e0e0"; // Change background to indicate selection
+
+                // If two cards are selected, check for a match
+                if (selectedCards.length === 2) {
+                    const [firstCard, secondCard] = selectedCards;
+                    if (firstCard.getAttribute('data-id') === secondCard.getAttribute('data-id') &&
+                        firstCard.getAttribute('data-type') !== secondCard.getAttribute('data-type')) {
+                        // It's a match! Make them disappear and play correct sound
+                        document.getElementById('correct-sound').play();
+                        setTimeout(() => {
+                            firstCard.classList.add('matched');
+                            secondCard.classList.add('matched');
+                            firstCard.style.display = 'none';
+                            secondCard.style.display = 'none';
+                            selectedCards = [];
+                            matchedPairs++;
+
+                            // Check if all cards have been matched
+                            if (matchedPairs === totalPairs) {
+                                playCrowdCheer();
+                            }
+                        }, 600); // Wait a bit before making them disappear
+                    } else {
+                        // No match, play wrong sound and reset background color
+                        document.getElementById('wrong-sound').play();
+                        setTimeout(() => {
+                            firstCard.style.backgroundColor = "#ffffff";
+                            secondCard.style.backgroundColor = "#ffffff";
+                            selectedCards = [];
+                        }, 1000); // Wait for the user to see the cards
+                    }
+                }
+            });
+        }
+
+        // Shuffle function to randomize the cards
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Confetti animation function
+        function startConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            const confettiParticles = [];
+            const colors = ['#ff0', '#f00', '#0f0', '#00f', '#ff00ff'];
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Confetti particle class
+            class ConfettiParticle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.size = Math.random() * 5 + 5;
+                    this.speedX = Math.random() * 4 - 2;
+                    this.speedY = Math.random() * 4 + 2;
+                    this.rotation = Math.random() * Math.PI * 2;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.speedY += 0.1; // Gravity effect
+
+                    // Draw the confetti
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+
+            // Create confetti particles
+            function createConfetti() {
+                for (let i = 0; i < 100; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    confettiParticles.push(new ConfettiParticle(x, y, color));
+                }
+            }
+
+            // Animate the confetti
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < confettiParticles.length; i++) {
+                    confettiParticles[i].update();
+                }
+
+                requestAnimationFrame(animateConfetti);
+            }
+
+            // Start the confetti animation
+            createConfetti();
+            animateConfetti();
+        }
+
+        // Play the crowd cheer sound three times
+        function playCrowdCheer() {
+            const cheerSound = document.getElementById('crowd-cheer-sound');
+            let playCount = 0;
+            const maxPlays = 3;
+            cheerSound.onended = function() {
+                playCount++;
+                if (playCount < maxPlays) {
+                    cheerSound.play();
+                }
+            };
+            cheerSound.play(); // Play it the first time
+            startConfetti(); // Start confetti animation
+        }
+
+        // Initialize game on load
+        window.onload = createGameBoard;
+    </script>
+</body>
+</html>

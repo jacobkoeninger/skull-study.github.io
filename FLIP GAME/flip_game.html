@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Flip Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 200px);
+            grid-gap: 20px;
+        }
+        .card {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .card-front {
+            background-color: #ffffff;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: #f0f0f0;
+            flex-direction: column;
+            padding: 10px;
+            font-size: 14px;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- 8 card elements will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Pairs of image sources and descriptions
+        const cards = [
+            { image: 'image1.jpg', description: 'AP Axial Towne Method' },
+            { image: 'image2.jpg', description: 'Lateral' },
+            { image: 'image3.jpg', description: 'PA Axial Skull Caldwell 15°' },
+            { image: 'image4.jpg', description: 'PA 0°' },
+            { image: 'image5.jpg', description: 'SMV Skull' },
+            { image: 'image6.jpg', description: 'Haas Method' },
+            { image: 'image7.jpg', description: 'Waters Method (facial bones)' },
+            { image: 'image8.jpg', description: 'Open Mouth Waters Method (sinuses)' }
+        ];
+
+        // Shuffle function to randomize the card pairs
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Create and display the cards
+        function createGameBoard() {
+            shuffleArray(cards); // Shuffle the card pairs each time the game is played
+            const gameContainer = document.querySelector('.game-container');
+            gameContainer.innerHTML = ''; // Clear any existing cards
+
+            for (let i = 0; i < cards.length; i++) {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-id', i);
+
+                const cardInner = document.createElement('div');
+                cardInner.classList.add('card-inner');
+
+                // Front of the card (image)
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+                const img = document.createElement('img');
+                img.src = cards[i].image; // Set image source based on shuffled pair
+                img.alt = `Card ${i + 1}`;
+                cardFront.appendChild(img);
+
+                // Back of the card (description)
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+                const description = document.createElement('p');
+                description.innerText = cards[i].description; // Set description based on shuffled pair
+                cardBack.appendChild(description);
+
+                cardInner.appendChild(cardFront);
+                cardInner.appendChild(cardBack);
+                card.appendChild(cardInner);
+
+                // Add flip event
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+
+                gameContainer.appendChild(card);
+            }
+        }
+
+        // Initialize game on load
+        window.onload = createGameBoard;
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.image-container {
+    position: relative;
+    width: 600px;
+    height: 800px;
+    margin-bottom: 20px;
+}
+
+.background-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.drop-zone {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.5);
+    border: 2px dashed black;
+}
+
+/* Corrected Positioning of Drop Zones */
+#glabella { top: 248px; left: 255px; }
+#nasion { top: 274px; left: 255px; }
+#acanthion { top: 345px; left: 260px; }
+#mental { top: 445px; left: 265px; }
+#goion { top: 389px; left: 172px; }
+#apex { top: 110px; left: 277px; }
+#eam { top: 325px; left: 410px; }
+
+/* Reduced space below the image for draggable subjects */
+.landmarks-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Reduced space */
+    gap: 15px; /* Controls spacing between the draggable elements */
+}
+
+.draggable {
+    margin: 0;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    cursor: grab;
+    font-size: 16px;
+    text-align: center;
+}
