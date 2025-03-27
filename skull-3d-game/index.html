@@ -11,21 +11,24 @@
     {
         "imports": {
             "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "zustand": "https://unpkg.com/zustand@4.5.2/esm/vanilla.mjs",
+            "zustand/vanilla": "https://unpkg.com/zustand@4.5.2/esm/vanilla.mjs",
+            "zustand/middleware": "https://unpkg.com/zustand@4.5.2/esm/middleware.mjs"
         }
     }
     </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="scene-container"></div>
-        <div id="ui-container">
-            <h1>Skull Landmarks</h1>
-            <div id="labels-container">
-                <!-- Labels will be dynamically added here -->
-            </div>
-        </div>
-    </div>
+    <skull-viewer></skull-viewer>
     <script type="module" src="main.js"></script>
 </body>
 </html> 
