@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Skull Labeling Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Three.js -->
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "zustand": "https://unpkg.com/zustand@4.5.2/esm/vanilla.mjs",
+            "zustand/vanilla": "https://unpkg.com/zustand@4.5.2/esm/vanilla.mjs",
+            "zustand/middleware": "https://unpkg.com/zustand@4.5.2/esm/middleware.mjs"
+        }
+    }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <skull-viewer></skull-viewer>
+    <script type="module" src="main.js"></script>
+</body>
+</html> 

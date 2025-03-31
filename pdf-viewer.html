@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Headwork Learning Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #121212;
+            color: #ffffff;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .page-title {
+            font-family: 'Cinzel', serif;
+            color: #00ffff;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            padding: 0.5rem 0.8rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #00ffff;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        #pdf-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            padding: 1rem;
+        }
+
+        #pdf-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+
+        #page-info {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #00ffff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        #page-num, #page-count {
+            margin: 0 0.3rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-button {
+            padding: 0.8rem 1.3rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 6px;
+            color: #00ffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-button:active {
+            transform: translateY(1px);
+        }
+
+        .nav-button i {
+            font-size: 1.2rem;
+        }
+
+        .zoom-control {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .zoom-button {
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 6px;
+            color: #00ffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .keyboard-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            z-index: 100;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            #pdf-controls {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .nav-button, .zoom-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            #page-info {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        #pdf-viewer {
+            width: 100%;
+            height: calc(100% - 50px);
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #canvas {
+            margin: auto;
+            display: block;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="back-button">← Back to Home</a>
+        <h1 class="page-title">Headwork Learning Tool</h1>
+    </div>
+
+    <div id="pdf-container">
+        <div id="pdf-controls">
+            <button id="prev" class="nav-button">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
+            <button id="next" class="nav-button">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="zoom-control">
+                <button id="zoom-out" class="zoom-button">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <button id="zoom-in" class="zoom-button">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div id="pdf-viewer">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="keyboard-hint">
+            <i class="fas fa-keyboard"></i> Arrow keys: ←/→
+        </div>
+    </div>
+
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <script>
+        // Set PDF.js worker source
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Use a hosted PDF URL instead of a local file to avoid CORS issues
+        // Replace this URL with the actual hosted location of your PDF
+        const pdfPath = 'https://export-download.canva.com/gk_8w/DAGiyNgk_8w/62/0-4105492042702953090.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH5AO7UJ26%2F20250331%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250331T002749Z&X-Amz-Expires=12189&X-Amz-Signature=bc6ce83f9dfb292fdd44959305538c48bb5afbbcfc0f6bb5d36a070cae0ddc1a&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%2A%3DUTF-8%27%27ocean%2520polaroid%252C%2520bleu%2520and%2520white%2520phone%2520wallpaper%2520.pdf&response-expires=Mon%2C%2031%20Mar%202025%2003%3A50%3A58%20GMT';
+        
+        // Variables to track current state
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.0;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        /**
+         * Render the page
+         */
+        function renderPage(num) {
+            pageRendering = true;
+            
+            // Using promise to fetch the page
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Render PDF page into canvas context
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                // Wait for rendering to finish
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    
+                    if (pageNumPending !== null) {
+                        // New page rendering is pending
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+            
+            // Update page counters
+            document.getElementById('page-num').textContent = num;
+        }
+
+        /**
+         * If another page rendering in progress, wait until it finishes.
+         * Otherwise, execute rendering immediately.
+         */
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        /**
+         * Go to previous page
+         */
+        function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        /**
+         * Go to next page
+         */
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        /**
+         * Zoom in
+         */
+        function onZoomIn() {
+            scale += 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        /**
+         * Zoom out
+         */
+        function onZoomOut() {
+            if (scale <= 0.5) {
+                return;
+            }
+            scale -= 0.25;
+            queueRenderPage(pageNum);
+        }
+
+        /**
+         * Initialize the PDF viewer
+         */
+        pdfjsLib.getDocument(pdfPath).promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page-count').textContent = pdfDoc.numPages;
+            
+            // Initial render
+            renderPage(pageNum);
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+            document.getElementById('pdf-viewer').innerHTML = 
+                '<div style="color: red; text-align: center; margin-top: 2rem;">' +
+                'Error loading PDF. Please ensure the PDF file exists at the correct path.' +
+                '</div>';
+        });
+
+        // Button event listeners
+        document.getElementById('prev').addEventListener('click', onPrevPage);
+        document.getElementById('next').addEventListener('click', onNextPage);
+        document.getElementById('zoom-in').addEventListener('click', onZoomIn);
+        document.getElementById('zoom-out').addEventListener('click', onZoomOut);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                onPrevPage();
+            } else if (event.key === 'ArrowRight') {
+                onNextPage();
+            } else if (event.key === '+' || event.key === '=') {
+                onZoomIn();
+            } else if (event.key === '-') {
+                onZoomOut();
+            }
+        });
+    </script>
+</body>
+</html> 

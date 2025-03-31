@@ -211,9 +211,71 @@
                 font-size: 0.85rem;
             }
         }
+
+        .credits-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+        }
+
+        .credit-text {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0.6rem 1.2rem;
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .credit-text:hover {
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .credit-heart {
+            color: #ff6b6b;
+            margin-right: 0.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .credit-name {
+            color: #00ffff;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 480px) {
+            .credit-text {
+                font-size: 0.8rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
+    <canvas id="background-canvas"></canvas>
     <div class="container">
         <div class="skull-container">
             <div class="skull">
@@ -266,11 +328,23 @@
                 <p class="game-description">Learn and identify important skull landmarks</p>
             </a>
             
+            <a href="pdf-viewer.html" class="game-card">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIwLDJINEEyLDIgMCAwLDAgMiw0VjIyTDYsMThIMjBBMiwyIDAgMCwwIDIyLDE2VjRDMjIsMi44OSAyMS4xLDIgMjAsMk0xMyw5SDE1VjE1SDEzVjlNOSw5SDExVjE1SDlWOVoiLz48L3N2Zz4=" class="game-icon" alt="PDF icon">
+                <h3 class="game-title">Headwork Learning Tool</h3>
+                <p class="game-description">Multi-page PDF study material for radiographic techniques</p>
+            </a>
+            
             <a href="study-materials/index.html" class="game-card study-card">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTEyLDRBOCw4IDAgMCwxIDIwLDEyQTgsOCAwIDAsMSAxMiwyMEE4LDggMCAwLDEgNCwxMkE4LDggMCAwLDEgMTIsNE0xMiw2QTYsNiAwIDAsMCA2LDEyQTYsNiAwIDAsMCAxMiwxOEE2LDYgMCAwLDAgMTgsMTJBNiw2IDAgMCwwIDEyLDZNMTIsOEE0LDQgMCAwLDEgMTYsMTJBNCw0IDAgMCwxIDEyLDE2QTQsNCAwIDAsMSA4LDEyQTQsNCAwIDAsMSAxMiw4WiIvPjwvc3ZnPg==" class="game-icon" alt="Study icon">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDVWMTlINVY1SDE5TTIxIDNIN0M1LjkgMyA1IDMuOSA1IDVWMjFDNSAyMi4xIDUuOSAyMyA3IDIzSDE5QzIwLjEgMjMgMjEgMjIuMSAyMSAyMVYzTTE0IDEwSDEwVjExSDEzLjVDMTMuNjcgMTEgMTMuODQgMTEuMDUgMTQgMTEuMTVDMTQuMjIgMTEuMjUgMTQuNDEgMTEuNCAxNC41NSAxMS42QzE0LjcgMTEuNzUgMTQuOCAxMS45NSAxNC44NSAxMi4yQzE0LjkgMTIuNDUgMTQuOSAxMi43IDE0Ljg1IDEzSDEwVjE0SDE0Ljg1QzE0LjkgMTQuMyAxNC45IDE0LjU1IDE0Ljg1IDE0LjhDMTQuOCAxNS4wNSAxNC43IDE1LjI1IDE0LjU1IDE1LjRDMTQuNDEgMTUuNiAxNC4yMiAxNS43NSAxNCAxNS44NUMxMy44NCAxNS45NSAxMy42NyAxNiAxMy41IDE2SDEwVjE3SDE0QzE0LjU1IDE3IDE1LjA1IDE2LjggMTUuNDUgMTYuNDVDMTUuODUgMTYuMDUgMTYgMTUuNTUgMTYgMTVDMTYgMTQuNDUgMTUuODUgMTQgMTUuNSAxMy42QzE1Ljg1IDEzLjIgMTYgMTIuNzUgMTYgMTIuMjVDMTYgMTEuNzUgMTUuOCAxMS4yNSAxNS40NSAxMC44NUMxNS4wNSAxMC41IDE0LjU1IDEwLjI1IDE0IDEwTTkgMTBIOVYxN0g5TDcgMTBIOVoiPjwvcGF0aD48L3N2Zz4=" class="game-icon" alt="Educational Resources icon">
                 <h3 class="game-title">Study Materials</h3>
                 <p class="game-description">Interactive learning aids and mnemonics</p>
             </a>
+        </div>
+    </div>
+
+    <div class="credits-container">
+        <div class="credit-text">
+            <span class="credit-heart">❤</span> Created with anatomical precision by <span class="credit-name">&nbsp;Candy&nbsp;</span> & <span class="credit-name">&nbsp;Breyden &nbsp;</span>
         </div>
     </div>
 
@@ -293,6 +367,261 @@
 
             // Apply the rotation while maintaining the float animation
             skull.style.transform = `translateY(var(--float-offset, 0px)) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Background animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('background-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            const particleCount = 100;
+            const baseConnectionDistance = 180;
+            const layerCount = 3;
+            
+            // Color palette
+            const primaryColor = '0, 255, 255'; // Cyan
+            const secondaryColor = '255, 255, 255'; // White
+            const accentColor = '255, 107, 107'; // Light red (matching heart)
+            
+            // Set canvas size
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            // Track mouse position for interactive effects
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            // Create particles with depth layers
+            function createParticles() {
+                particles = [];
+                for (let layer = 0; layer < layerCount; layer++) {
+                    const layerDepth = (layer + 1) / layerCount;
+                    const layerParticleCount = Math.floor(particleCount * (1 - (layer * 0.3)));
+                    
+                    for (let i = 0; i < layerParticleCount; i++) {
+                        // Determine color based on layer and randomness
+                        let colorBase;
+                        const colorRoll = Math.random();
+                        
+                        if (colorRoll < 0.65) {
+                            colorBase = primaryColor; // Cyan (most common)
+                        } else if (colorRoll < 0.95) {
+                            colorBase = secondaryColor; // White (less common)
+                        } else {
+                            colorBase = accentColor; // Accent (rare)
+                        }
+                        
+                        particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            z: layerDepth, // Z-depth for parallax effect
+                            radius: (Math.random() * 2 + 0.8) / layerDepth, // Larger particles in front
+                            color: colorBase,
+                            baseSpeedX: (Math.random() * 0.8 - 0.4) * layerDepth,
+                            baseSpeedY: (Math.random() * 0.8 - 0.4) * layerDepth,
+                            speedX: 0,
+                            speedY: 0,
+                            pulseSpeed: Math.random() * 0.02 + 0.01,
+                            pulseAmount: Math.random() * 0.5 + 0.5,
+                            pulseOffset: Math.random() * Math.PI * 2,
+                            history: [], // For trailing effect
+                            connectionStrength: Math.random() * 0.5 + 0.5,
+                            lastUpdate: Date.now()
+                        });
+                    }
+                }
+            }
+            
+            // Calculate pulse values for dynamic effects
+            function calculatePulse(particle, time) {
+                return Math.sin(time * particle.pulseSpeed + particle.pulseOffset) * particle.pulseAmount;
+            }
+            
+            // Draw particles with enhanced visual effects
+            function drawParticles(timestamp) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const time = timestamp / 1000;
+                
+                // Draw connections between particles
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    const pulse1 = calculatePulse(p1, time);
+                    
+                    // Calculate distance from mouse for interactive effects
+                    const mouseDistX = p1.x - mouseX;
+                    const mouseDistY = p1.y - mouseY;
+                    const mouseDistance = Math.sqrt(mouseDistX * mouseDistX + mouseDistY * mouseDistY);
+                    const mouseInfluence = Math.max(0, 1 - (mouseDistance / (canvas.width * 0.3)));
+                    
+                    // Draw connections
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const pulse2 = calculatePulse(p2, time);
+                        
+                        // Calculate adjusted connection distance based on layer and mouse proximity
+                        const connectionDistance = baseConnectionDistance * 
+                                                (1 + mouseInfluence * 0.3) * 
+                                                Math.min(p1.z, p2.z);
+                        
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < connectionDistance) {
+                            // Calculate opacity based on distance and pulses
+                            const baseOpacity = (1 - distance / connectionDistance);
+                            const pulseEffect = (pulse1 + pulse2) * 0.1;
+                            const finalOpacity = Math.min(0.8, (baseOpacity + pulseEffect) * 0.3);
+                            
+                            // Determine color based on particle types
+                            let connectionColor;
+                            if (p1.color === accentColor || p2.color === accentColor) {
+                                // If either particle is accent, use accent with reduced opacity
+                                connectionColor = `rgba(${accentColor}, ${finalOpacity * 0.7})`;
+                            } else if (p1.color === p2.color) {
+                                // Same color particles
+                                connectionColor = `rgba(${p1.color}, ${finalOpacity})`;
+                            } else {
+                                // Different color particles - blend
+                                connectionColor = `rgba(${primaryColor}, ${finalOpacity})`;
+                            }
+                            
+                            // Draw connection with dynamic width based on connection strength
+                            const connectionWidth = 0.5 + 
+                                                (p1.connectionStrength * p2.connectionStrength * 0.8) + 
+                                                (mouseInfluence * 0.5);
+                            
+                            ctx.beginPath();
+                            ctx.strokeStyle = connectionColor;
+                            ctx.lineWidth = connectionWidth * Math.min(p1.z, p2.z);
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                // Draw particles with glow effects
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    const pulse = calculatePulse(p, time);
+                    
+                    // Calculate mouse influence for this particle
+                    const mouseDistX = p.x - mouseX;
+                    const mouseDistY = p.y - mouseY;
+                    const mouseDistance = Math.sqrt(mouseDistX * mouseDistX + mouseDistY * mouseDistY);
+                    const mouseInfluence = Math.max(0, 1 - (mouseDistance / (canvas.width * 0.2)));
+                    
+                    // Calculate dynamic radius with pulse and mouse influence
+                    const dynamicRadius = p.radius * (1 + pulse * 0.3 + mouseInfluence * 0.5);
+                    
+                    // Draw glow effect
+                    const gradientSize = dynamicRadius * (3 + mouseInfluence * 2);
+                    const gradient = ctx.createRadialGradient(
+                        p.x, p.y, 0,
+                        p.x, p.y, gradientSize
+                    );
+                    
+                    // Determine opacity based on pulse and mouse
+                    const innerOpacity = 0.7 + (pulse * 0.15) + (mouseInfluence * 0.3);
+                    const midOpacity = (0.3 + pulse * 0.15) * p.z;
+                    
+                    gradient.addColorStop(0, `rgba(${p.color}, ${innerOpacity})`);
+                    gradient.addColorStop(0.4, `rgba(${p.color}, ${midOpacity})`);
+                    gradient.addColorStop(1, `rgba(${p.color}, 0)`);
+                    
+                    ctx.beginPath();
+                    ctx.fillStyle = gradient;
+                    ctx.arc(p.x, p.y, gradientSize, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw core of particle
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(${p.color}, ${0.7 + pulse * 0.3})`;
+                    ctx.arc(p.x, p.y, dynamicRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Update particle positions with more dynamic movement
+            function updateParticles() {
+                const now = Date.now();
+                const mouseInfluenceRadius = canvas.width * 0.2;
+                
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    const deltaTime = (now - p.lastUpdate) / 16; // normalize to ~60fps
+                    p.lastUpdate = now;
+                    
+                    // Calculate mouse influence
+                    const dx = p.x - mouseX;
+                    const dy = p.y - mouseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // Apply base speed
+                    p.speedX = p.baseSpeedX;
+                    p.speedY = p.baseSpeedY;
+                    
+                    // Apply mouse influence if close enough
+                    if (distance < mouseInfluenceRadius) {
+                        const force = (1 - distance / mouseInfluenceRadius) * 0.2;
+                        const angle = Math.atan2(dy, dx);
+                        
+                        // Particles are gently pushed away from cursor
+                        p.speedX += Math.cos(angle) * force * p.z;
+                        p.speedY += Math.sin(angle) * force * p.z;
+                    }
+                    
+                    // Apply slight flow field effect for more organic movement
+                    const noiseOffsetX = p.x * 0.002;
+                    const noiseOffsetY = p.y * 0.002;
+                    const noiseValue = Math.sin(noiseOffsetX) * Math.cos(noiseOffsetY) * 0.1;
+                    
+                    p.speedX += noiseValue * p.z;
+                    p.speedY += noiseValue * p.z * 0.8;
+                    
+                    // Update position with deltaTime for consistent movement
+                    p.x += p.speedX * deltaTime;
+                    p.y += p.speedY * deltaTime;
+                    
+                    // Edge wrapping with buffer
+                    const buffer = 50;
+                    if (p.x < -buffer) p.x = canvas.width + buffer;
+                    if (p.x > canvas.width + buffer) p.x = -buffer;
+                    if (p.y < -buffer) p.y = canvas.height + buffer;
+                    if (p.y > canvas.height + buffer) p.y = -buffer;
+                    
+                    // Store position history for potential trails
+                    p.history.unshift({x: p.x, y: p.y});
+                    if (p.history.length > 5) {
+                        p.history.pop();
+                    }
+                }
+            }
+            
+            // Animation loop with timing parameter
+            function animate(timestamp) {
+                updateParticles();
+                drawParticles(timestamp);
+                requestAnimationFrame(animate);
+            }
+            
+            // Initialize
+            resizeCanvas();
+            createParticles();
+            requestAnimationFrame(animate);
+            
+            // Handle resizing
+            window.addEventListener('resize', function() {
+                resizeCanvas();
+                createParticles();
+            });
         });
     </script>
 </body>

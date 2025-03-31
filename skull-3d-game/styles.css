@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#scene-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#ui-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#labels-container {
+    margin-top: 20px;
+}
+
+/* Development Mode Styles */
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+/* 3D Label Styles */
+.label {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 8px;
+    white-space: nowrap;
+    cursor: default;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    border: 1px solid #666;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    position: relative; /* For delete button positioning */
+}
+
+.label.dev-mode {
+    cursor: pointer;
+    background-color: rgba(255, 220, 220, 0.9);
+}
+
+.label.dev-mode:hover {
+    background-color: rgba(255, 200, 200, 0.95);
+}
+
+.label-edit {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    color: inherit;
+}
+
+.delete-button:hover {
+    background-color: #ff6666 !important;
+}
+
+.label.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.label.correct {
+    background-color: #90EE90;
+    border-color: #006400;
+}
+
+.label.incorrect {
+    background-color: #FFB6C1;
+    border-color: #8B0000;
+} 

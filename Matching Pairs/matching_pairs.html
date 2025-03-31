@@ -7,168 +7,260 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 2rem;
-            min-height: 100vh;
-            background: #1a1a1a;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
+            background: #121212;
+            color: #ffffff;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            position: relative;
+        }
+
+        .header {
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            padding: 0.5rem;
             position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .page-title {
+            font-family: 'Cinzel', serif;
+            color: #00ffff;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            padding: 0.5rem 0.8rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 4px;
+            color: #00ffff;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .game-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
+            padding: 0.5rem;
+            overflow: hidden;
         }
 
         .game-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
-            width: 90%;
-            margin: 2rem auto;
-            position: relative;
-            z-index: 10;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.5rem;
+            max-width: 95vw;
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
         }
 
         .card {
+            position: relative;
             aspect-ratio: 3/4;
-            min-height: 150px;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            background: rgba(30, 30, 30, 0.9);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 1rem;
-            box-sizing: border-box;
-            font-family: 'Cinzel', serif;
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            z-index: 1;
-            font-size: 1rem;
-            line-height: 1.4;
         }
 
         .card:hover {
-            border-color: rgba(0, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
             transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+
+        .card.selected {
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
 
         .card.matched {
-            border-color: rgba(0, 255, 255, 0.6);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
             animation: pulse 2s infinite;
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); }
-            100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.3); }
+        .card-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00ffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 0.3rem;
+            line-height: 1.2;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            overflow: hidden;
         }
 
-        img {
+        .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px;
             filter: brightness(1.1) contrast(1.1);
         }
 
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); opacity: 0; }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); opacity: 0; }
+            100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); opacity: 0; }
+        }
+
         canvas {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 5;
+            z-index: 1000;
         }
 
+        /* Media queries for responsive design */
         @media (max-width: 1200px) {
             .game-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.25rem;
+                grid-template-columns: repeat(8, 1fr);
+            }
+            .card-content {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .game-container {
+                grid-template-columns: repeat(8, 1fr);
+            }
+            .card-content {
+                font-size: 0.7rem;
             }
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 1rem;
+            .page-title {
+                font-size: 1.8rem;
             }
-
             .game-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-                width: 95%;
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 98vw;
             }
-
-            .card {
-                min-height: 120px;
-                padding: 0.75rem;
-                font-size: 0.9rem;
+            .card-content {
+                font-size: 0.85rem;
             }
+        }
 
+        @media (max-width: 576px) {
+            .header {
+                padding: 0.7rem 0;
+            }
+            .page-title {
+                font-size: 1.5rem;
+            }
             .back-button {
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .game-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.4rem;
+            }
+            .card-content {
+                font-size: 0.75rem;
+                padding: 0.2rem;
             }
         }
 
         @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.3rem;
+            }
             .game-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-                margin: 1rem auto;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.3rem;
+                padding: 0.3rem;
             }
-
             .card {
-                min-height: 100px;
-                padding: 0.5rem;
-                font-size: 0.85rem;
+                border-radius: 4px;
             }
-
-            .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 6px 12px;
-                font-size: 0.85rem;
+            .card-content {
+                font-size: 0.7rem;
+                padding: 0.15rem;
             }
         }
 
-        /* Add a back button */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background: rgba(30, 30, 30, 0.9);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 5px;
-            color: #00ffff;
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            transition: all 0.3s ease;
-            z-index: 9999;
-        }
-
-        .back-button:hover {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: rgba(0, 255, 255, 0.4);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        /* Landscape orientation */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header {
+                padding: 0.3rem;
+            }
+            .page-title {
+                font-size: 1.5rem;
+            }
+            .game-container {
+                grid-template-columns: repeat(8, 1fr);
+                gap: 0.3rem;
+            }
+            .card-content {
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-button">← Back to Games</a>
-    <div class="game-container">
-        <!-- Cards will be dynamically inserted here -->
+    <div class="header">
+        <a href="../index.html" class="back-button">← Back to Games</a>
+        <h1 class="page-title">Matching Pairs</h1>
     </div>
+
+    <div class="game-area">
+        <div class="game-container">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+    </div>
+
     <canvas id="confettiCanvas"></canvas>
 
     <audio id="click-sound" src="click.mp3"></audio>
@@ -177,6 +269,34 @@
     <audio id="crowd-cheer-sound" src="crowd-cheer.mp3"></audio>
 
     <script>
+        // Adjust layout on load and resize
+        function adjustLayout() {
+            // Get viewport dimensions
+            const vh = window.innerHeight;
+            const vw = window.innerWidth;
+            
+            // Determine if landscape or portrait
+            const isLandscape = vw > vh;
+            
+            // Get container and all cards
+            const container = document.querySelector('.game-container');
+            
+            // Set grid template columns based on orientation
+            if (isLandscape) {
+                if (vw < 768) {
+                    container.style.gridTemplateColumns = 'repeat(8, 1fr)';
+                } else {
+                    container.style.gridTemplateColumns = 'repeat(8, 1fr)';
+                }
+            } else {
+                if (vh < 800) {
+                    container.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                } else {
+                    container.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                }
+            }
+        }
+
         // Pairs of image sources and descriptions
         const cards = [
             { image: 'image1.jpg', description: 'AP Axial Towne Method' },
@@ -222,18 +342,25 @@
                 cardElement.setAttribute('data-id', card.id);
                 cardElement.setAttribute('data-type', card.type);
 
+                const contentElement = document.createElement('div');
+                contentElement.classList.add('card-content');
+
                 // Display image or text based on card type
                 if (card.type === 'image') {
                     const img = document.createElement('img');
-                    img.src = card.content; // Set image source
-                    cardElement.appendChild(img);
+                    img.src = card.content;
+                    img.classList.add('card-image');
+                    contentElement.appendChild(img);
                 } else {
-                    cardElement.innerText = card.content; // Set description text
+                    contentElement.textContent = card.content;
                 }
 
-                // Add the card to the container
+                cardElement.appendChild(contentElement);
                 gameContainer.appendChild(cardElement);
             });
+
+            // Adjust layout after creating cards
+            adjustLayout();
 
             // Event listener for card matching
             let selectedCards = [];
@@ -253,20 +380,20 @@
 
                 // Select the card
                 selectedCards.push(card);
-                card.style.backgroundColor = "#e0e0e0"; // Change background to indicate selection
+                card.classList.add('selected');
 
                 // If two cards are selected, check for a match
                 if (selectedCards.length === 2) {
                     const [firstCard, secondCard] = selectedCards;
                     if (firstCard.getAttribute('data-id') === secondCard.getAttribute('data-id') &&
                         firstCard.getAttribute('data-type') !== secondCard.getAttribute('data-type')) {
-                        // It's a match! Make them disappear and play correct sound
+                        // It's a match! Mark them matched and play correct sound
                         document.getElementById('correct-sound').play();
                         setTimeout(() => {
                             firstCard.classList.add('matched');
                             secondCard.classList.add('matched');
-                            firstCard.style.display = 'none';
-                            secondCard.style.display = 'none';
+                            firstCard.classList.remove('selected');
+                            secondCard.classList.remove('selected');
                             selectedCards = [];
                             matchedPairs++;
 
@@ -274,13 +401,13 @@
                             if (matchedPairs === totalPairs) {
                                 playCrowdCheer();
                             }
-                        }, 600); // Wait a bit before making them disappear
+                        }, 600); // Wait a bit before marking them matched
                     } else {
-                        // No match, play wrong sound and reset background color
+                        // No match, play wrong sound and reset
                         document.getElementById('wrong-sound').play();
                         setTimeout(() => {
-                            firstCard.style.backgroundColor = "#ffffff";
-                            secondCard.style.backgroundColor = "#ffffff";
+                            firstCard.classList.remove('selected');
+                            secondCard.classList.remove('selected');
                             selectedCards = [];
                         }, 1000); // Wait for the user to see the cards
                     }
@@ -375,7 +502,11 @@
         }
 
         // Initialize game on load
-        window.onload = createGameBoard;
+        window.onload = function() {
+            createGameBoard();
+            // Adjust layout on window resize
+            window.addEventListener('resize', adjustLayout);
+        };
     </script>
 </body>
 </html>
