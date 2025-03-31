@@ -511,6 +511,38 @@
         }
 
         /**
+         * Ensures proper scrolling behavior after zooming
+         * This function is called after zoom operations to ensure content remains scrollable
+         */
+        function ensureProperScrolling() {
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const canvasElement = document.getElementById('canvas');
+            
+            // Reset any CSS that might be limiting scrollability
+            pdfViewer.style.overflow = 'auto';
+            
+            // Make sure the canvas has some margin at the bottom for better scrolling
+            canvasElement.style.marginBottom = '2rem';
+            
+            // First reset the minHeight to ensure we're starting from a clean state
+            pdfViewer.style.minHeight = 'auto';
+            
+            // If canvas is taller than viewport, ensure container can scroll
+            if (canvasElement.height > pdfViewer.clientHeight) {
+                // Make sure container can accommodate the full height of the canvas
+                pdfViewer.style.height = 'calc(100% - 6.5rem)';
+            } else {
+                // If canvas is smaller than viewport, ensure it's centered
+                pdfViewer.style.display = 'flex';
+                pdfViewer.style.justifyContent = 'center';
+                pdfViewer.style.alignItems = 'center';
+            }
+            
+            // Force a reflow to ensure scrollbar updates properly
+            void pdfViewer.offsetHeight;
+        }
+
+        /**
          * Render the page
          */
         function renderPage(num) {
@@ -533,6 +565,9 @@
                 // Wait for rendering to finish
                 renderTask.promise.then(function() {
                     pageRendering = false;
+                    
+                    // Ensure proper scrolling after rendering
+                    ensureProperScrolling();
                     
                     if (pageNumPending !== null) {
                         // New page rendering is pending
@@ -594,9 +629,21 @@
          * Zoom in
          */
         function onZoomIn() {
+            const pdfViewer = document.getElementById('pdf-viewer');
             maintainContainer();
+            const originalHeight = canvas.height;
+            const scrollPercentage = pdfViewer.scrollTop / Math.max(pdfViewer.scrollHeight, 1);
+            
             scale += 0.25;
             queueRenderPage(pageNum);
+            
+            // After zooming, adjust scroll position proportionally
+            setTimeout(() => {
+                if (canvas.height > originalHeight) {
+                    pdfViewer.scrollTop = scrollPercentage * pdfViewer.scrollHeight;
+                    ensureProperScrolling();
+                }
+            }, 100);
         }
 
         /**
@@ -606,9 +653,26 @@
             if (scale <= 0.5) {
                 return;
             }
-            maintainContainer();
+            
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const scrollRatio = pdfViewer.scrollTop / Math.max(pdfViewer.scrollHeight, 1);
+            
             scale -= 0.25;
             queueRenderPage(pageNum);
+            
+            // After zooming, ensure proper display and scrolling
+            setTimeout(() => {
+                // Reset scroll position proportionally
+                pdfViewer.scrollTop = scrollRatio * pdfViewer.scrollHeight;
+                
+                // Make sure scrollbars appear/disappear as needed
+                ensureProperScrolling();
+                
+                // If we're at the minimum zoom, make sure everything looks good
+                if (scale === 0.5) {
+                    pdfViewer.style.overflow = 'auto';
+                }
+            }, 100);
         }
 
         /**
@@ -676,6 +740,8 @@
                     fullscreenIcon.classList.add('fa-compress');
                     // Re-render page to ensure proper scaling in fullscreen
                     queueRenderPage(pageNum);
+                    // Ensure proper scrolling after entering fullscreen
+                    setTimeout(ensureProperScrolling, 300);
                 });
             } else {
                 document.exitFullscreen().then(() => {
@@ -684,6 +750,8 @@
                     fullscreenIcon.classList.add('fa-expand');
                     // Re-render page to ensure proper scaling after exiting fullscreen
                     queueRenderPage(pageNum);
+                    // Ensure proper scrolling after exiting fullscreen
+                    setTimeout(ensureProperScrolling, 300);
                 });
             }
         }
@@ -699,6 +767,14 @@
         });
 
         fullscreenButton.addEventListener('click', toggleFullscreen);
+
+        // Handle window resize to ensure proper scrolling
+        window.addEventListener('resize', () => {
+            // Small delay to let the browser finish resizing
+            setTimeout(() => {
+                ensureProperScrolling();
+            }, 200);
+        });
     </script>
 </body>
 </html> 
