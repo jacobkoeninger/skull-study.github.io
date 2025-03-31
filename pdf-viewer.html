@@ -78,6 +78,8 @@
             height: 100%;
             overflow: hidden;
             padding: 1rem;
+            padding-top: 5.5rem;
+            position: relative;
         }
 
         #pdf-controls {
@@ -85,13 +87,27 @@
             justify-content: center;
             align-items: center;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
+            width: calc(100% - 2rem);
+            max-width: 1200px;
             background: rgba(0, 0, 0, 0.7);
             padding: 1rem;
             border-radius: 10px;
             border: 1px solid rgba(0, 255, 255, 0.3);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        #pdf-controls.scrolling {
+            background: rgba(0, 0, 0, 0.85);
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+            padding: 0.8rem 1rem;
         }
 
         #page-info {
@@ -136,6 +152,13 @@
             transform: translateY(-2px);
         }
 
+        /* Make hover effect more subtle when controls are fixed */
+        #pdf-controls.scrolling .nav-button:hover,
+        #pdf-controls.scrolling .zoom-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
         .nav-button:active {
             transform: translateY(1px);
         }
@@ -147,6 +170,7 @@
         .zoom-control {
             display: flex;
             gap: 0.5rem;
+            margin-right: 0.5rem;
         }
 
         .zoom-button {
@@ -172,8 +196,31 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
         }
 
+        .fullscreen-button {
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 6px;
+            color: #00ffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-button:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
         .keyboard-hint {
-            position: absolute;
+            position: fixed;
             bottom: 1rem;
             right: 1rem;
             color: rgba(255, 255, 255, 0.6);
@@ -186,12 +233,23 @@
             max-width: 300px;
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hide keyboard hint when user is scrolled down */
+        .keyboard-hint.hidden {
+            opacity: 0;
         }
 
         @media (max-width: 768px) {
             #pdf-controls {
                 flex-wrap: wrap;
                 gap: 1rem;
+                padding: 0.8rem;
+            }
+            
+            #pdf-container {
+                padding-top: 7rem;
             }
             
             .nav-button, .zoom-button {
@@ -205,21 +263,178 @@
             }
         }
 
+        @media (max-width: 480px) {
+            #pdf-container {
+                padding-top: 8.5rem;
+            }
+        }
+
         #pdf-viewer {
             width: 100%;
-            height: calc(100% - 50px);
+            height: 100%;
             overflow: auto;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 255, 255, 0.1);
             border-radius: 8px;
             display: flex;
             justify-content: center;
+            scroll-behavior: smooth;
         }
 
         #canvas {
             margin: auto;
             display: block;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Fullscreen mode styles */
+        body.fullscreen-mode {
+            background: #000;
+        }
+
+        body.fullscreen-mode .header,
+        body.fullscreen-mode .keyboard-hint {
+            display: none;
+        }
+
+        body.fullscreen-mode #pdf-container {
+            padding: 1rem 5rem 1rem 1rem;
+        }
+
+        body.fullscreen-mode #pdf-controls {
+            flex-direction: column;
+            gap: 0.8rem;
+            width: auto;
+            max-width: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 255, 255, 0.2);
+            padding: 0.8rem;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+            right: 1rem;
+            left: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 12px;
+        }
+
+        body.fullscreen-mode #pdf-controls:hover {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        body.fullscreen-mode #page-info {
+            writing-mode: horizontal-tb;
+            transform: none;
+            padding: 0.6rem;
+            min-width: auto;
+            min-height: auto;
+            font-size: 0.9rem;
+            text-align: center;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        body.fullscreen-mode #page-info #page-num,
+        body.fullscreen-mode #page-info #page-count {
+            margin: 0;
+        }
+
+        body.fullscreen-mode .nav-button {
+            writing-mode: horizontal-tb;
+            transform: none;
+            padding: 0.6rem;
+            min-height: auto;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.fullscreen-mode .nav-button i {
+            transform: none;
+            margin: 0;
+        }
+
+        /* Hide the text in fullscreen mode, show only icons */
+        body.fullscreen-mode .nav-button span {
+            display: none;
+        }
+
+        body.fullscreen-mode .zoom-control {
+            flex-direction: column;
+            margin: 0;
+            gap: 0.5rem;
+        }
+
+        body.fullscreen-mode .zoom-button,
+        body.fullscreen-mode .fullscreen-button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+        }
+
+        body.fullscreen-mode #pdf-viewer {
+            border: none;
+            background: none;
+        }
+
+        body.fullscreen-mode #canvas {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Adjust hover effects for vertical controls */
+        body.fullscreen-mode .nav-button:hover,
+        body.fullscreen-mode .zoom-button:hover,
+        body.fullscreen-mode .fullscreen-button:hover {
+            transform: translateX(-5px);
+        }
+
+        /* Add tooltips for buttons in fullscreen mode */
+        body.fullscreen-mode .nav-button::after,
+        body.fullscreen-mode .zoom-button::after,
+        body.fullscreen-mode .fullscreen-button::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        body.fullscreen-mode .nav-button:hover::after,
+        body.fullscreen-mode .zoom-button:hover::after,
+        body.fullscreen-mode .fullscreen-button:hover::after {
+            opacity: 1;
+        }
+
+        /* Mobile adjustments for fullscreen mode */
+        @media (max-width: 768px) {
+            body.fullscreen-mode #pdf-container {
+                padding-right: 4rem;
+            }
+
+            body.fullscreen-mode #pdf-controls {
+                padding: 0.6rem;
+            }
+
+            body.fullscreen-mode #page-info {
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
         }
     </style>
 </head>
@@ -231,21 +446,26 @@
 
     <div id="pdf-container">
         <div id="pdf-controls">
-            <button id="prev" class="nav-button">
-                <i class="fas fa-chevron-left"></i> Previous
+            <button id="prev" class="nav-button" data-tooltip="Previous Page">
+                <i class="fas fa-chevron-left"></i> <span>Previous</span>
             </button>
-            <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
-            <button id="next" class="nav-button">
-                Next <i class="fas fa-chevron-right"></i>
+            <span id="page-info">
+                Page <span id="page-num"></span> of <span id="page-count"></span>
+            </span>
+            <button id="next" class="nav-button" data-tooltip="Next Page">
+                <span>Next</span> <i class="fas fa-chevron-right"></i>
             </button>
             <div class="zoom-control">
-                <button id="zoom-out" class="zoom-button">
+                <button id="zoom-out" class="zoom-button" data-tooltip="Zoom Out">
                     <i class="fas fa-search-minus"></i>
                 </button>
-                <button id="zoom-in" class="zoom-button">
+                <button id="zoom-in" class="zoom-button" data-tooltip="Zoom In">
                     <i class="fas fa-search-plus"></i>
                 </button>
             </div>
+            <button id="fullscreen" class="fullscreen-button" data-tooltip="Toggle Fullscreen">
+                <i class="fas fa-expand"></i>
+            </button>
         </div>
         <div id="pdf-viewer">
             <canvas id="canvas"></canvas>
@@ -274,6 +494,21 @@
         let scale = 1.0;
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+
+        /**
+         * Maintains the viewport height when changing pages
+         * This prevents jarring jumps when switching between pages of different heights
+         */
+        function maintainContainer() {
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const minHeight = window.innerHeight * 0.5; // Set a reasonable minimum height
+            
+            // Get current canvas height and add some padding
+            const currentCanvasHeight = canvas.height || minHeight;
+            
+            // Apply minimum height to the container to maintain scroll position
+            pdfViewer.style.minHeight = Math.max(currentCanvasHeight, minHeight) + 'px';
+        }
 
         /**
          * Render the page
@@ -332,6 +567,11 @@
             }
             pageNum--;
             queueRenderPage(pageNum);
+            // Scroll back to the top of the PDF viewer
+            pdfViewer.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         /**
@@ -343,12 +583,18 @@
             }
             pageNum++;
             queueRenderPage(pageNum);
+            // Scroll back to the top of the PDF viewer
+            pdfViewer.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         /**
          * Zoom in
          */
         function onZoomIn() {
+            maintainContainer();
             scale += 0.25;
             queueRenderPage(pageNum);
         }
@@ -360,6 +606,7 @@
             if (scale <= 0.5) {
                 return;
             }
+            maintainContainer();
             scale -= 0.25;
             queueRenderPage(pageNum);
         }
@@ -397,8 +644,61 @@
                 onZoomIn();
             } else if (event.key === '-') {
                 onZoomOut();
+            } else if (event.key === 'F11') {
+                event.preventDefault();
+                toggleFullscreen();
             }
         });
+
+        // Add scroll effect to controls
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfControls = document.getElementById('pdf-controls');
+        
+        pdfViewer.addEventListener('scroll', function() {
+            if (pdfViewer.scrollTop > 50) {
+                pdfControls.classList.add('scrolling');
+                document.querySelector('.keyboard-hint').classList.add('hidden');
+            } else {
+                pdfControls.classList.remove('scrolling');
+                document.querySelector('.keyboard-hint').classList.remove('hidden');
+            }
+        });
+
+        // Fullscreen functionality
+        const fullscreenButton = document.getElementById('fullscreen');
+        const fullscreenIcon = fullscreenButton.querySelector('i');
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    document.body.classList.add('fullscreen-mode');
+                    fullscreenIcon.classList.remove('fa-expand');
+                    fullscreenIcon.classList.add('fa-compress');
+                    // Re-render page to ensure proper scaling in fullscreen
+                    queueRenderPage(pageNum);
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    document.body.classList.remove('fullscreen-mode');
+                    fullscreenIcon.classList.remove('fa-compress');
+                    fullscreenIcon.classList.add('fa-expand');
+                    // Re-render page to ensure proper scaling after exiting fullscreen
+                    queueRenderPage(pageNum);
+                });
+            }
+        }
+
+        // Handle fullscreen change events (e.g., when user presses ESC)
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('fullscreen-mode');
+                fullscreenIcon.classList.remove('fa-compress');
+                fullscreenIcon.classList.add('fa-expand');
+                queueRenderPage(pageNum);
+            }
+        });
+
+        fullscreenButton.addEventListener('click', toggleFullscreen);
     </script>
 </body>
 </html> 
