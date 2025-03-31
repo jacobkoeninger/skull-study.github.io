@@ -3,33 +3,55 @@
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    padding: 2rem;
+    padding: 0;
     min-height: 100vh;
     background: #1a1a1a;
     background-image: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
-    text-align: center;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
-h1 {
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    z-index: 10;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow: auto;
+}
+
+.page-title {
     font-family: 'Cinzel', serif;
     color: #00ffff;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    text-align: center;
+    margin: 0;
 }
 
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
     background: rgba(15, 15, 15, 0.95);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
     border: 1px solid rgba(0, 255, 255, 0.1);
+    max-width: 800px;
+    width: 100%;
 }
 
 .image-container {
@@ -164,39 +186,49 @@ h1 {
 
 /* Add a back button */
 .back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background: rgba(30, 30, 30, 0.9);
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    padding: 0.5rem 0.8rem;
+    background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(0, 255, 255, 0.2);
-    border-radius: 5px;
+    border-radius: 4px;
     color: #00ffff;
     text-decoration: none;
     font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    z-index: 9999;
+    z-index: 100;
 }
 
 .back-button:hover {
-    background: rgba(0, 255, 255, 0.1);
+    background: rgba(0, 255, 255, 0.15);
     border-color: rgba(0, 255, 255, 0.4);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
     body {
+        padding: 0;
+    }
+
+    .header {
+        padding: 0.7rem 0;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .game-container {
         padding: 1rem;
     }
 
     h1 {
         font-size: 1.8rem;
         margin-bottom: 1.5rem;
-    }
-
-    .game-container {
-        padding: 1rem;
     }
 
     .landmarks-container {
