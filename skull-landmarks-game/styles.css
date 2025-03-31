@@ -120,7 +120,7 @@ h1 {
 #nasion { top: 309px; left: 255px; }
 #acanthion { top: 410px; left: 260px; }
 #mental { top: 536px; left: 265px; }
-#goion { top: 468px; left: 150px; }
+#gonoin { top: 468px; left: 150px; }
 #apex { top: 120px; left: 277px; }
 #eam { top: 390px; left: 435px; }
 
@@ -220,7 +220,7 @@ h1 {
     #nasion { top: 247px; left: 204px; transform: scale(0.8); }
     #acanthion { top: 328px; left: 208px; transform: scale(0.8); }
     #mental { top: 429px; left: 212px; transform: scale(0.8); }
-    #goion { top: 374px; left: 120px; transform: scale(0.8); }
+    #gonoin { top: 374px; left: 120px; transform: scale(0.8); }
     #apex { top: 96px; left: 222px; transform: scale(0.8); }
     #eam { top: 312px; left: 348px; transform: scale(0.8); }
 }
@@ -255,7 +255,7 @@ h1 {
     #nasion { top: 185px; left: 153px; transform: scale(0.7); }
     #acanthion { top: 246px; left: 156px; transform: scale(0.7); }
     #mental { top: 322px; left: 159px; transform: scale(0.7); }
-    #goion { top: 281px; left: 90px; transform: scale(0.7); }
+    #gonoin { top: 281px; left: 90px; transform: scale(0.7); }
     #apex { top: 72px; left: 166px; transform: scale(0.7); }
     #eam { top: 234px; left: 261px; transform: scale(0.7); }
 }
