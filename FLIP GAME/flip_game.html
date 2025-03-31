@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radiographic Views Study</title>
+    <title>Radiographic Flashcards</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
 
@@ -17,7 +17,7 @@
                 linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
             display: grid;
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto auto 1fr;
         }
 
         .header {
@@ -31,11 +31,35 @@
             z-index: 10;
         }
 
+        .instructions-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 2rem 0;
+        }
+
+        .instructions {
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #ccc;
+            font-size: 1.1rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 90%;
+            border: 1px solid rgba(0, 255, 255, 0.15);
+        }
+
+        .instructions p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
         .game-area {
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 2rem;
+            align-items: flex-start;
+            padding: 1rem 2rem 2rem;
             overflow: auto;
         }
 
@@ -46,7 +70,6 @@
             max-width: 1200px;
             width: 100%;
             perspective: 1000px;
-            margin-top: 1rem;
         }
 
         .card {
@@ -125,6 +148,11 @@
                 font-size: 2rem;
                 margin: 1.5rem 0;
             }
+            
+            .instructions {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -135,6 +163,11 @@
             .page-title {
                 font-size: 1.7rem;
                 margin: 1rem 0;
+            }
+            
+            .instructions {
+                font-size: 0.9rem;
+                padding: 8px 12px;
             }
         }
 
@@ -181,8 +214,15 @@
 <body>
     <div class="header">
         <a href="../index.html" class="back-button">← Back to Games</a>
-        <h1 class="page-title">Radiographic Views Study</h1>
+        <h1 class="page-title">Radiographic Flashcards</h1>
     </div>
+    
+    <div class="instructions-container">
+        <div class="instructions">
+            <p>Click on any card to flip it and see the corresponding radiographic view name. Study the images and memorize the different views and their characteristics. Click again to flip back.</p>
+        </div>
+    </div>
+    
     <div class="game-area">
         <div class="game-container">
             <!-- Cards will be dynamically inserted here -->

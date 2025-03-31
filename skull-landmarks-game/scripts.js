@@ -1,5 +1,7 @@
 const landmarks = document.querySelectorAll('.draggable');
 const dropZones = document.querySelectorAll('.drop-zone');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
 
 // Create audio elements
 const clickSound = new Audio('click.mp3');
@@ -110,8 +112,8 @@ function createConfetti() {
     }, 6000);
 }
 
-// Check if all zones are filled correctly
-function checkAllZonesFilled() {
+// Update progress bar
+function updateProgress() {
     const totalZones = dropZones.length;
     let filledZones = 0;
     
@@ -121,8 +123,26 @@ function checkAllZonesFilled() {
         }
     });
     
+    const progressPercentage = (filledZones / totalZones) * 100;
+    progressFill.style.width = `${progressPercentage}%`;
+    progressText.textContent = `${filledZones}/${totalZones} complete`;
+    
     return filledZones === totalZones;
 }
+
+// Check if all zones are filled correctly
+function checkAllZonesFilled() {
+    return updateProgress();
+}
+
+// Add hover effect to drop zones
+dropZones.forEach(zone => {
+    // Add a tooltip that shows when hovering over empty drop zones
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('zone-tooltip');
+    tooltip.textContent = '?';
+    zone.appendChild(tooltip);
+});
 
 // Add event listeners to each landmark
 landmarks.forEach(landmark => {
@@ -168,6 +188,12 @@ dropZones.forEach(zone => {
                 draggedElements[0].remove();
             }
             
+            // Remove the tooltip if it exists
+            const tooltip = zone.querySelector('.zone-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+            
             // Update the drop zone
             zone.innerHTML = `<span>${draggedLandmark}</span>`;
             zone.style.border = "2px solid green";
@@ -175,8 +201,11 @@ dropZones.forEach(zone => {
             // Play correct sound for precisely 1775ms
             playCorrectSound();
             
+            // Update progress
+            const allComplete = updateProgress();
+            
             // Check if all zones are filled correctly
-            if (checkAllZonesFilled()) {
+            if (allComplete) {
                 setTimeout(() => {
                     createConfetti();
                 }, 200); // Small delay before celebration
