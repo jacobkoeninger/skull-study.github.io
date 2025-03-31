@@ -10,15 +10,33 @@
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
-            padding: 2rem;
+            padding: 0;
             min-height: 100vh;
             background: #1a1a1a;
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .header {
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 0.5rem;
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .game-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow: auto;
         }
 
         .game-container {
@@ -28,6 +46,7 @@
             max-width: 1200px;
             width: 100%;
             perspective: 1000px;
+            margin-top: 1rem;
         }
 
         .card {
@@ -101,11 +120,21 @@
             .game-container {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .page-title {
+                font-size: 2rem;
+                margin: 1.5rem 0;
+            }
         }
 
         @media (max-width: 480px) {
             .game-container {
                 grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.7rem;
+                margin: 1rem 0;
             }
         }
 
@@ -115,32 +144,49 @@
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
         }
 
+        /* Title styling */
+        .page-title {
+            font-family: 'Cinzel', serif;
+            color: #00ffff;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            text-align: center;
+        }
+
         /* Add a back button */
         .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background: rgba(30, 30, 30, 0.9);
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            padding: 0.5rem 0.8rem;
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 5px;
+            border-radius: 4px;
             color: #00ffff;
             text-decoration: none;
             font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
+            z-index: 100;
         }
 
         .back-button:hover {
-            background: rgba(0, 255, 255, 0.1);
+            background: rgba(0, 255, 255, 0.15);
             border-color: rgba(0, 255, 255, 0.4);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
         }
     </style>
 </head>
 <body>
-    <a href="../index.html" class="back-button">← Back to Games</a>
-    <div class="game-container">
-        <!-- Cards will be dynamically inserted here -->
+    <div class="header">
+        <a href="../index.html" class="back-button">← Back to Games</a>
+        <h1 class="page-title">Radiographic Views Study</h1>
+    </div>
+    <div class="game-area">
+        <div class="game-container">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
     </div>
 
     <script>

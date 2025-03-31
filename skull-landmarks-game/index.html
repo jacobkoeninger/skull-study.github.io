@@ -7,31 +7,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a href="../index.html" class="back-button">← Back to Games</a>
-    <h1>Important Skull X-ray Landmarks (Anterior View)</h1>
-    <div class="game-container">
-        <div class="image-container">
-            <img src="shar.jpg" alt="Skull" class="background-image">
+    <div class="header">
+        <a href="../index.html" class="back-button">← Back to Games</a>
+        <h1 class="page-title">Important Skull X-ray Landmarks (Anterior View)</h1>
+    </div>
+    <div class="game-area">
+        <div class="game-container">
+            <div class="image-container">
+                <img src="shar.jpg" alt="Skull" class="background-image">
+                
+                <!-- Drop Zones -->
+                <div class="drop-zone" id="glabella" data-landmark="glabella"></div>
+                <div class="drop-zone" id="nasion" data-landmark="nasion"></div>
+                <div class="drop-zone" id="acanthion" data-landmark="acanthion"></div>
+                <div class="drop-zone" id="mental" data-landmark="mental"></div>
+                <div class="drop-zone" id="gonoin" data-landmark="gonoin"></div>
+                <div class="drop-zone" id="apex" data-landmark="apex"></div>
+                <div class="drop-zone" id="eam" data-landmark="eam"></div>
+            </div>
             
-            <!-- Drop Zones -->
-            <div class="drop-zone" id="glabella" data-landmark="glabella"></div>
-            <div class="drop-zone" id="nasion" data-landmark="nasion"></div>
-            <div class="drop-zone" id="acanthion" data-landmark="acanthion"></div>
-            <div class="drop-zone" id="mental" data-landmark="mental"></div>
-            <div class="drop-zone" id="gonoin" data-landmark="gonoin"></div>
-            <div class="drop-zone" id="apex" data-landmark="apex"></div>
-            <div class="drop-zone" id="eam" data-landmark="eam"></div>
-        </div>
-        
-        <!-- Drag Options -->
-        <div class="landmarks-container">
-            <div class="draggable" draggable="true" data-landmark="glabella">Glabella</div>
-            <div class="draggable" draggable="true" data-landmark="nasion">Nasion</div>
-            <div class="draggable" draggable="true" data-landmark="acanthion">Acanthion</div>
-            <div class="draggable" draggable="true" data-landmark="mental">Mental Protuberance</div>
-            <div class="draggable" draggable="true" data-landmark="gonoin">Gonoin</div>
-            <div class="draggable" draggable="true" data-landmark="apex">Apex</div>
-            <div class="draggable" draggable="true" data-landmark="eam">External Auditory Meatus (EAM)</div>
+            <!-- Drag Options -->
+            <div class="landmarks-container">
+                <div class="draggable" draggable="true" data-landmark="glabella">Glabella</div>
+                <div class="draggable" draggable="true" data-landmark="nasion">Nasion</div>
+                <div class="draggable" draggable="true" data-landmark="acanthion">Acanthion</div>
+                <div class="draggable" draggable="true" data-landmark="mental">Mental Protuberance</div>
+                <div class="draggable" draggable="true" data-landmark="gonoin">Gonoin</div>
+                <div class="draggable" draggable="true" data-landmark="apex">Apex</div>
+                <div class="draggable" draggable="true" data-landmark="eam">External Auditory Meatus (EAM)</div>
+            </div>
         </div>
     </div>
 
