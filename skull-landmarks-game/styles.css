@@ -7,7 +7,7 @@ body {
     min-height: 100vh;
     background: #1a1a1a;
     background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
         url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CiAgPHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0zMCAyYzE1LjUgMCAyOCAxMi41IDI4IDI4UzQ1LjUgNTggMzAgNTggMiA0NS41IDIgMzAgMTQuNSAyIDMwIDJ6IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3N2Zz4=');
     display: grid;
     grid-template-rows: auto 1fr;
@@ -35,10 +35,11 @@ body {
 .page-title {
     font-family: 'Cinzel', serif;
     color: #00ffff;
-    font-size: 2rem;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    font-size: 2.2rem;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
     text-align: center;
     margin: 0;
+    letter-spacing: 1px;
 }
 
 .game-container {
@@ -46,10 +47,10 @@ body {
     flex-direction: column;
     align-items: center;
     background: rgba(15, 15, 15, 0.95);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: 18px;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.15), inset 0 0 20px rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.15);
     max-width: 800px;
     width: 100%;
 }
@@ -60,10 +61,11 @@ body {
     max-width: 600px;
     height: auto;
     aspect-ratio: 3/4;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+    border: 1px solid rgba(0, 255, 255, 0.2);
 }
 
 .background-image {
@@ -71,7 +73,7 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: brightness(1.1) contrast(1.1);
+    filter: brightness(1.15) contrast(1.15);
 }
 
 .drop-zone {
@@ -79,13 +81,26 @@ body {
     height: 50px;
     border-radius: 50%;
     position: absolute;
-    background-color: rgba(0, 255, 255, 0.3);
+    background-color: rgba(0, 255, 255, 0.25);
     border: 2px solid rgba(0, 255, 255, 0.6);
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
+    }
 }
 
 .drop-zone::after {
@@ -111,30 +126,31 @@ body {
 /* Style for correctly placed landmarks */
 .drop-zone span {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     color: #00ffff;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
-    padding: 3px 6px;
-    border-radius: 10px;
+    padding: 4px 8px;
+    border-radius: 12px;
     white-space: nowrap;
     pointer-events: none;
     text-shadow: 0 0 3px rgba(0, 255, 255, 0.8);
-    transform: translateY(-30px);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(-35px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(0, 255, 255, 0.5);
 }
 
 /* Override styles for correctly filled drop zones */
 .drop-zone[style*="border: 2px solid green"] {
     background-color: rgba(0, 200, 0, 0.2);
-    border: 2px solid green !important;
-    box-shadow: 0 0 10px rgba(0, 200, 0, 0.4);
+    border: 2px solid #00cc00 !important;
+    box-shadow: 0 0 15px rgba(0, 200, 0, 0.5);
+    animation: none;
 }
 
 .drop-zone[style*="border: 2px solid green"]::after {
     background-color: rgba(0, 200, 0, 0.7);
-    box-shadow: 0 0 5px rgba(0, 200, 0, 0.8);
+    box-shadow: 0 0 8px rgba(0, 200, 0, 0.8);
 }
 
 /* Corrected Positioning of Drop Zones */
@@ -152,10 +168,12 @@ body {
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 2rem;
-    padding: 1rem;
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 10px;
+    padding: 1.25rem;
+    background: rgba(25, 25, 25, 0.9);
+    border-radius: 12px;
     border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 90%;
 }
 
 .draggable {
@@ -163,20 +181,21 @@ body {
     padding: 12px 20px;
     background: rgba(0, 255, 255, 0.1);
     border: 1px solid rgba(0, 255, 255, 0.3);
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: grab;
     font-family: 'Cinzel', serif;
     font-size: 1rem;
     color: #00ffff;
     text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
     transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .draggable:hover {
     background: rgba(0, 255, 255, 0.2);
     border-color: rgba(0, 255, 255, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 255, 255, 0.25);
 }
 
 .draggable:active {
@@ -190,22 +209,24 @@ body {
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
-    padding: 0.5rem 0.8rem;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.25);
+    border-radius: 8px;
     color: #00ffff;
     text-decoration: none;
     font-family: 'Cinzel', serif;
     font-size: 0.9rem;
     transition: all 0.3s ease;
     z-index: 100;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .back-button:hover {
     background: rgba(0, 255, 255, 0.15);
     border-color: rgba(0, 255, 255, 0.4);
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.05);
 }
 
 /* Mobile Responsive Styles */
@@ -290,4 +311,81 @@ body {
     #gonoin { top: 281px; left: 90px; transform: scale(0.7); }
     #apex { top: 72px; left: 166px; transform: scale(0.7); }
     #eam { top: 234px; left: 261px; transform: scale(0.7); }
+}
+
+.instructions {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #ccc;
+    font-size: 1.1rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 20px;
+    border-radius: 10px;
+    width: 90%;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+}
+
+.instructions p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 90%;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, rgba(0, 200, 255, 0.6), rgba(0, 255, 255, 0.8));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.progress-text {
+    margin-top: 8px;
+    color: #00ffff;
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.zone-tooltip {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 255, 255, 0.7);
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+/* Hide the tooltip when a landmark is correctly placed */
+.drop-zone[style*="border: 2px solid green"] .zone-tooltip {
+    display: none;
+}
+
+/* Add hover style for the drop zone when dragging */
+.drag-over {
+    background-color: rgba(0, 255, 255, 0.5) !important;
+    transform: scale(1.2);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6) !important;
 }
